@@ -19,11 +19,10 @@ class Cart
 
     public function add(Product $item, string $productId)
     {
-        $storedItem = ['quantity' => 0, 'price' => $item->price, 'item' => $item];
+        $storedItem = ['quantity' => 1, 'price' => $item->price, 'item' => $item];
         if (array_key_exists($productId, $this->items)) {
             $storedItem = $this->items[$productId];
         }
-        $storedItem['quantity'] += 1;
         $storedItem['price'] = $item->price * $storedItem['quantity'];
         $this->items[$productId] = $storedItem;
         $this->totalQty += 1;

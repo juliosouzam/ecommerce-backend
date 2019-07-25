@@ -44,7 +44,7 @@ class SendRegisterSuccessfullEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Registro Confirmado')
+                    ->subject('Seja bem vindo a nossa loja')
                     ->markdown('mail.register.successful', [ 'user' => $this->user ]);
     }
 
