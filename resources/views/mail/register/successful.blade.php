@@ -1,7 +1,7 @@
 @component('mail::message')
-# Sucesso
+# Bem vindo!
 
-Eae, {{ $user->name }},
+Seja bem bindo, {{ $user->name }},
 você acaba de criar uma conta em nossa loja.
 Fique a vontade para ver nossos produtos e qualquer dúvida, entre em contato conosco para resolvermos da melhor forma possível.
 

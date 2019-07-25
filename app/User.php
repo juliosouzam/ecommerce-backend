@@ -2,14 +2,16 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -37,4 +39,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->{$query->getKeyName()} = Str::uuid();
+        });
+    }
 }
