@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->string('slug')->unique()->index();
             $table->decimal('price', 8, 2);
+            $table->integer('quantity')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

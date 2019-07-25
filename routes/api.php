@@ -22,7 +22,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', 'Auth\RegisterController@register');
 });
 
-Route::group(['middleware' => ['auth:api']], function () {
-    Route::resource('categories', 'CategoryController')->only(['index', 'show']);
-    Route::resource('categories/{category}/subcategories', 'SubcategoryController')->only(['index', 'show']);
-});
+Route::resource('categories', 'CategoryController')->only(['index', 'show']);
+Route::resource('categories/{category}/subcategories', 'SubcategoryController')->only(['index', 'show']);
+Route::resource('categories/{category}/subcategories/{subcategory}/products', 'ProductController')->only(['index', 'show']);
+
+Route::get('/products/{product}/getCart', 'ProductController@getCart');
+Route::post('/products/{product}/addToCart', 'ProductController@addToCart');
