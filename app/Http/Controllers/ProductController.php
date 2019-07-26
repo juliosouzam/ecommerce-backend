@@ -31,19 +31,21 @@ class ProductController extends Controller
         return response()->json(['product' => $product]);
     }
 
-    public function getCart(Request $request, Product $product)
+    public function getCart()
     {
-        return response()->json(session('cart', ['items' => []]));
+        return response()->json(['cart' => auth()->user()->cart]);
     }
 
     public function addToCart(Request $request, Product $product)
     {
-        $oldCart = session('cart', []);
-        $cart = new Cart($oldCart);
-        $cart->add($product, $product->id);
+        if ($cart = auth()->user()->cart) {
+            $cart->addItem($product);
 
-        session(['cart' => $cart]);
+            return response()->json(['cart' => $cart]);
+        }
 
-        return response()->json(session('cart'));
+        ($cart = new Cart)->new($product)->addItem($product);
+
+        return response()->json(['cart' => $cart]);
     }
 }

@@ -26,5 +26,9 @@ Route::resource('categories', 'CategoryController')->only(['index', 'show']);
 Route::resource('categories/{category}/subcategories', 'SubcategoryController')->only(['index', 'show']);
 Route::resource('categories/{category}/subcategories/{subcategory}/products', 'ProductController')->only(['index', 'show']);
 
-Route::get('/products/{product}/getCart', 'ProductController@getCart');
-Route::post('/products/{product}/addToCart', 'ProductController@addToCart');
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/products/{product}/getCart', 'ProductController@getCart');
+    Route::post('/products/{product}/addToCart', 'ProductController@addToCart');
+
+    Route::resource('orders', 'OrderController')->only(['store', 'show']);
+});

@@ -2,32 +2,69 @@
 
 namespace App\Models;
 
-class Cart
-{
-    public $items = [];
-    public $totalQty = 0;
-    public $totalPrce = 0;
+use App\User;
+use Illuminate\Http\Request;
 
-    public function __construct($oldCart = [])
+class Cart extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'total_qty',
+        'total_price'
+    ];
+
+    protected $with = ['items'];
+
+    public function user()
     {
-        if ($oldCart) {
-            $this->items = $oldCart->items;
-            $this->totalQty = $oldCart->totalQty;
-            $this->totalPrce = $oldCart->totalPrce;
-        }
+        return $this->belongsTo(User::class);
     }
 
-    public function add(Product $item, string $productId)
+    public function items()
     {
-        $storedItem = ['quantity' => 1, 'price' => $item->price, 'item' => $item];
-        if (array_key_exists($productId, $this->items)) {
-            $storedItem = $this->items[$productId];
-        }
-        $storedItem['price'] = $item->price * $storedItem['quantity'];
-        $this->items[$productId] = $storedItem;
-        $this->totalQty += 1;
-        $this->totalPrce += $item->price;
+        return $this->hasMany(CartItem::class, 'cart_id', 'id');
+    }
+
+    public function new(Product $product)
+    {
+        $cart = [
+            'user_id' => auth()->id(),
+            'total_qty' => request()->total_qty,
+            'total_price' => request()->total_qty * $product->price
+        ];
+
+        $this->fill($cart)->save();
 
         return $this;
+    }
+
+    public function addItem(Product $product)
+    {
+        if ($item = $this->items()->where('product_id', $product->id)->first()) {
+            $item->quantity += 1;
+            $item->save();
+
+            return $this;
+        }
+
+        $this->items()->create([
+            'product_id' => $product->id,
+            'product_title' => $product->title,
+            'product_description' => $product->description,
+            'price' => $product->price,
+            'quantity' => request()->total_qty
+        ]);
+
+        return $this;
+    }
+
+    public function count()
+    {
+        return $this->items->sum('quantity');
+    }
+
+    public function total()
+    {
+        return $this->items->sum('price') * $this->items->sum('quantity');
     }
 }
