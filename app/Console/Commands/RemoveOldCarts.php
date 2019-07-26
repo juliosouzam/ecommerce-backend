@@ -32,7 +32,7 @@ class RemoveOldCarts extends Command
     public function __construct(Cart $cart)
     {
         parent::__construct();
-        $this->carts = $cart->get();
+        $this->carts = $cart;
     }
 
     /**
@@ -42,7 +42,7 @@ class RemoveOldCarts extends Command
      */
     public function handle()
     {
-        $this->carts->map(function ($cart) {
+        $this->carts->get()->map(function ($cart) {
             try {
                 if (now()->diffInHours($cart->created_at) >= 24) {
                     $cart->items()->delete();
