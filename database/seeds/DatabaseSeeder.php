@@ -15,17 +15,26 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
-        for ($i = 0; $i < $this->times; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $category = factory('App\Models\Category')->create();
 
-            $subcategories = factory('App\Models\Subcategory', $this->times)->create([
+            $subcategories1 = factory('App\Models\Subcategory', $this->times / 2)->create([
                 'category_id' => $category->id
             ]);
 
-            $products = factory('App\Models\Product', $this->times)->create();
+            $subcategories2 = factory('App\Models\Subcategory', $this->times / 2)->create([
+                'category_id' => $category->id
+            ]);
 
-            $products->map(function ($product) use ($subcategories) {
-                $product->subcategories()->sync($subcategories->pluck('id')->toArray() ?? []);
+            $products1 = factory('App\Models\Product', $this->times / 2)->create();
+            $products2 = factory('App\Models\Product', $this->times / 2)->create();
+
+            $products1->map(function ($product) use ($subcategories1) {
+                $product->subcategories()->sync($subcategories1->pluck('id')->toArray() ?? []);
+            });
+
+            $products2->map(function ($product) use ($subcategories2) {
+                $product->subcategories()->sync($subcategories2->pluck('id')->toArray() ?? []);
             });
         }
     }
