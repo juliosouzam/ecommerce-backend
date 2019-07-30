@@ -15,6 +15,8 @@ class Product extends Model
         'price',
         'quantity'
     ];
+
+    protected $with = ['images'];
      /**
      * Get the route key for the model.
      *
@@ -28,5 +30,10 @@ class Product extends Model
     public function subcategories()
     {
         return $this->belongsToMany(Subcategory::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 }

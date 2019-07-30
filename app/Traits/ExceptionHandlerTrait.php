@@ -34,7 +34,7 @@ trait ExceptionHandlerTrait
     public function getValidationException(ValidationException $exception)
     {
         return response()->json([
-            'error' => $exception->validator->errors()->getMessage(),
+            'error' => $exception->validator->errors(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
             'code' => $exception->getCode()

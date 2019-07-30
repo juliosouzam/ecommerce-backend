@@ -17,8 +17,6 @@ class OrderController extends Controller
     {
         ($order = new Order($request->all()))->save();
 
-        dd($request->all());
-
         return response()->json(['order' => $order]);
     }
 

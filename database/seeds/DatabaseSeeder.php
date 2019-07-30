@@ -31,10 +31,16 @@ class DatabaseSeeder extends Seeder
 
             $products1->map(function ($product) use ($subcategories1) {
                 $product->subcategories()->sync($subcategories1->pluck('id')->toArray() ?? []);
+                factory('App\Models\Image')->create([
+                    'product_id' => $product->id
+                ]);
             });
 
             $products2->map(function ($product) use ($subcategories2) {
                 $product->subcategories()->sync($subcategories2->pluck('id')->toArray() ?? []);
+                factory('App\Models\Image')->create([
+                    'product_id' => $product->id
+                ]);
             });
         }
     }
