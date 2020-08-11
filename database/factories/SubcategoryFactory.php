@@ -4,6 +4,7 @@
 
 use Faker\Generator as Faker;
 use App\Models\Subcategory;
+use Illuminate\Support\Str;
 
 $factory->define(Subcategory::class, function (Faker $faker) {
     $name = $faker->sentence(3);

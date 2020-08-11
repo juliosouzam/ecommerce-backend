@@ -14,7 +14,7 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->uuid('id')->index();
+            $table->uuid('id')->unique()->index();
             $table->string('code', 32);
             $table->enum('status', ['pending', 'paid', 'completed'])->default('pending');
             $table->text('notes')->nullable();

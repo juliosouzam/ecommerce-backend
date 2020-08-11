@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        factory('App\User')->create();
 
         for ($i = 0; $i < 3; $i++) {
             $category = factory('App\Models\Category')->create();

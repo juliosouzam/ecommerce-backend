@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Passport::ignoreMigrations();
     }
 
     /**

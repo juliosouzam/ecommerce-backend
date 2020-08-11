@@ -14,7 +14,7 @@ class CreateCartsTable extends Migration
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->uuid('id')->index();
+            $table->uuid('id')->unique()->index();
             $table->uuid('user_id')->nullable();
             $table->integer('total_qty');
             $table->decimal('total_price', 14, 2);

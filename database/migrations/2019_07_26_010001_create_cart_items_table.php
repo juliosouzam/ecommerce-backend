@@ -14,7 +14,7 @@ class CreateCartItemsTable extends Migration
     public function up()
     {
         Schema::create('cart_items', function (Blueprint $table) {
-            $table->uuid('id')->index();
+            $table->uuid('id')->unique()->index();
             $table->uuid('cart_id');
             $table->uuid('product_id');
             $table->string('product_title');
